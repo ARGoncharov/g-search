@@ -2,7 +2,7 @@
   #app
     .header
       h1.title g-Search
-      SearchComponent(ref="searchComponent")
+      SearchComponent(ref="searchComponent" @enter="revertTitle")
     router-view
 </template>
 
@@ -23,19 +23,13 @@ export default {
     },
     revertTitle () {
       const title = document.querySelector('.title')
-      title.style.fontFamily = 'Orbitron, sans-serif'
       title.style.fontSize = '60px'
-      title.style.textAlign = 'center'
-      title.style.paddingTop = '60px'
-      title.style.paddingBottom = '60px'
+      title.style.color = 'black'
     }
   },
   mounted () {
     const searchField = this.$refs.searchComponent.$el.querySelector('.search-field')
     searchField.addEventListener('focus', this.changeTitle)
-  },
-  beforeDestroy () {
-    window.removeEventListener('click', this.revertTitle)
   }
 }
 

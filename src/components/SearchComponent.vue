@@ -1,6 +1,6 @@
 <template lang="pug">
   .search-field-component
-    input.search-field(type="search" placeholder="Искать гифку..." required)
+    input.search-field(type="search" placeholder="Искать гифку..." required @keyup.enter="$emit('enter')")
 </template>
 
 <script>
