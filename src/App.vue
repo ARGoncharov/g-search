@@ -29,7 +29,7 @@ export default {
   },
   mounted () {
     const searchField = this.$refs.searchComponent.$el.querySelector('.search-field')
-    searchField.addEventListener('focus', this.changeTitle)
+    searchField.addEventListener('click', this.changeTitle)
   }
 }
 
@@ -39,18 +39,12 @@ export default {
 
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Oswald:wght@300&display=swap');
 
-* {
-  padding: 0;
-  margin: 0 auto;
-}
-
 .header {
   .title {
     font-family: Orbitron, sans-serif;
     font-size: 60px;
     text-align: center;
     padding-top: 60px;
-    padding-bottom: 60px;
   }
 }
 
