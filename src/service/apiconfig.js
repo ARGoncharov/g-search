@@ -1,4 +1,5 @@
 import axios from 'axios'
+import store from '@/store'
 export const BASE_URL = 'https://api.giphy.com/v1/gifs'
 export const API_KEY = '1fsLx4csUmfXLMu9bw9bahch3ZaLiCou'
 
@@ -19,6 +20,7 @@ class APIService {
           q: searchItem
         }
       })
+      store.dispatch('searchGiphy', response.data)
       return response.data
     } catch (error) {
       throw new Error(error.message)

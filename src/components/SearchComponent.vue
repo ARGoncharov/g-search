@@ -12,6 +12,7 @@
 <script>
 
 import APIService from '@/service/apiconfig'
+import { mapGetters } from 'vuex'
 export default {
   name: 'SearchComponent',
   data () {
@@ -33,6 +34,9 @@ export default {
         console.log(error)
       }
     }
+  },
+  computed: {
+    ...mapGetters('giphyModule', ['getGiphyData'])
   }
 }
 </script>

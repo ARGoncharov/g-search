@@ -22,7 +22,7 @@ export default {
     changeTitle () {
       const title = document.querySelector('.title')
       title.style.fontSize = '80px'
-      title.style.color = '#30EB82'
+      title.style.color = 'a'
       title.style.transition = '0.5s'
     },
     revertTitle () {
