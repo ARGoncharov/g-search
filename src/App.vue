@@ -3,15 +3,19 @@
     .header
       h1.title g-Search
       SearchComponent(ref="searchComponent" @enter="revertTitle")
+    .main
+      SpinnerComponent
     router-view
 </template>
 
 <script>
 
 import SearchComponent from '@/components/SearchComponent.vue'
+import SpinnerComponent from '@/components/SpinnerComponent.vue'
 
 export default {
   components: {
+    SpinnerComponent,
     SearchComponent
   },
   methods: {
