@@ -1,32 +1,51 @@
-<template>
-  <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
-  </div>
+<template lang="pug">
+  #app
+    .header
+      h1.title g-Search
+      SearchComponent(ref="searchComponent" @enter="revertTitle")
+    router-view
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
 
-nav {
-  padding: 30px;
+import SearchComponent from '@/components/SearchComponent.vue'
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+export default {
+  components: {
+    SearchComponent
+  },
+  methods: {
+    changeTitle () {
+      const title = document.querySelector('.title')
+      title.style.fontSize = '80px'
+      title.style.color = '#30EB82'
+      title.style.transition = '0.5s'
+    },
+    revertTitle () {
+      const title = document.querySelector('.title')
+      title.style.fontSize = '60px'
+      title.style.color = 'black'
     }
+  },
+  mounted () {
+    const searchField = this.$refs.searchComponent.$el.querySelector('.search-field')
+    searchField.addEventListener('click', this.changeTitle)
   }
 }
+
+</script>
+
+<style lang="scss">
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Oswald:wght@300&display=swap');
+
+.header {
+  .title {
+    font-family: Orbitron, sans-serif;
+    font-size: 60px;
+    text-align: center;
+    padding-top: 60px;
+  }
+}
+
 </style>
