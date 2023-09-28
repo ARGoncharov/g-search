@@ -1,13 +1,24 @@
 <template lang="pug">
   .search-field-component
-    input.search-field(type="search" placeholder="find your giphy..." required @keyup.enter="$emit('enter')")
-    button.search-button(type="submit" @click="$emit('enter')") Search
+    input.search-field(
+      type="search"
+      placeholder="find your giphy..." required
+      @keyup.enter="$emit('enter')"
+      )
+    button.search-button(type="submit" @click="() => {$emit('enter'); inputSearch()}") Search
 </template>
 
 <script>
 export default {
   name: 'SearchComponent',
   methods: {
+    inputSearch () {
+      fetch('https://api.giphy.com/v1/gifs/search?api_key=1fsLx4csUmfXLMu9bw9bahch3ZaLiCou')
+        .then(response => response.json())
+        .then(result => {
+          console.log(result)
+        })
+    }
   }
 }
 </script>
