@@ -1,13 +1,38 @@
 <template lang="pug">
   .search-field-component
-    input.search-field(type="search" placeholder="find your giphy..." required @keyup.enter="$emit('enter')")
-    button.search-button(type="submit" @click="$emit('enter')") Search
+    input.search-field(
+      type="search"
+      placeholder="find your giphy..." required
+      @keyup.enter="$emit('enter')"
+      v-model="searchItem"
+      )
+    button.search-button(type="submit" @click="() => {$emit('enter'); inputSearch()}") Search
 </template>
 
 <script>
+
+import APIService from '@/service/apiconfig'
 export default {
   name: 'SearchComponent',
+  data () {
+    return {
+      searchItem: ''
+    }
+  },
   methods: {
+    inputSearch () {
+      try {
+        APIService.searchGiphy(this.searchItem)
+          .then(result => {
+            console.log(result)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      } catch (error) {
+        console.log(error)
+      }
+    }
   }
 }
 </script>
