@@ -4,20 +4,34 @@
       type="search"
       placeholder="find your giphy..." required
       @keyup.enter="$emit('enter')"
+      v-model="searchItem"
       )
     button.search-button(type="submit" @click="() => {$emit('enter'); inputSearch()}") Search
 </template>
 
 <script>
+
+import APIService from '@/service/apiconfig'
 export default {
   name: 'SearchComponent',
+  data () {
+    return {
+      searchItem: ''
+    }
+  },
   methods: {
     inputSearch () {
-      fetch('https://api.giphy.com/v1/gifs/search?api_key=1fsLx4csUmfXLMu9bw9bahch3ZaLiCou')
-        .then(response => response.json())
-        .then(result => {
-          console.log(result)
-        })
+      try {
+        APIService.searchGiphy(this.searchItem)
+          .then(result => {
+            console.log(result)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 }
