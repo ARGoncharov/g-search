@@ -1,42 +1,45 @@
 <template lang="pug">
   .search-field-component
     input.search-field(
-      type="search"
-      placeholder="find your giphy..." required
-      @keyup.enter="$emit('enter')"
       v-model="searchItem"
-      )
-    button.search-button(type="submit" @click="() => {$emit('enter'); inputSearch()}") Search
+      @keyup.enter="$emit('enter')"
+      type="search"
+      placeholder="find your giphy..."
+      required)
+
+    button.search-button(
+      @click="submit"
+      type="submit") Search
 </template>
 
 <script>
-
-import APIService from '@/service/apiconfig'
-import { mapGetters } from 'vuex'
 export default {
   name: 'SearchComponent',
+  props: {
+    loading: Boolean
+  },
   data () {
     return {
       searchItem: ''
     }
   },
+  computed: {
+  },
   methods: {
-    inputSearch () {
+    async submit () {
       try {
-        APIService.searchGiphy(this.searchItem)
-          .then(result => {
-            console.log(result)
-          })
-          .catch(error => {
-            console.log(error)
-          })
-      } catch (error) {
-        console.log(error)
+        this.$emit('update:loading', true)
+        const params = {
+          q: this.searchItem
+        }
+        const { data } = await this.$store.dispatch('api/getSearchItems', { params })
+        this.$emit('onDataLoad', data)
+      } catch (err) {
+        console.warn('Error', err)
+      } finally {
+        this.$emit('update:loading', false)
       }
     }
-  },
-  computed: {
-    ...mapGetters('giphyModule', ['getGiphyData'])
   }
 }
 </script>
@@ -46,6 +49,7 @@ export default {
   display: flex;
   justify-content: center;
   align-content: space-between;
+
   .search-field {
     appearance: none;
     border: none;
@@ -58,17 +62,19 @@ export default {
     padding: 15px;
     border-radius: 10px;
     font-size: 20px;
+
     &::placeholder {
       color: black;
     }
+
     &:focus,
-    &:valid
-    {
+    &:valid {
       font-family: Orbitron, sans-serif;
       background-color: black;
       color: gainsboro;
     }
   }
+
   .search-button {
     appearance: none;
     border: none;
@@ -79,6 +85,8 @@ export default {
     background-color: gainsboro;
     width: 100px;
     border-radius: 10px;
+    user-select: none;
+
     &:hover {
       color: #30EB82;
       background-color: black;
