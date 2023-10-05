@@ -13,7 +13,7 @@
 
     .gifs(v-if="!isLoading")
       .gif(v-for="(item, i) in items" :key="i")
-        router-link(:to="{ name: 'gif', params: { id: item.id } }")
+        router-link(:to="{ name: 'about', query: { id: item.id } }")
           img(:src="item.images.original.url")
 </template>
 
