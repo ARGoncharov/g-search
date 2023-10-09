@@ -4,7 +4,7 @@
       h1.title g-Search
       SearchComponent(
         @enter="revertTitle"
-        @onDataLoad="onDataLoad"
+        @submit="onSubmit"
         :loading.sync="isLoading"
         ref="searchComponent")
 
@@ -19,14 +19,14 @@
       ul
         .gif(v-for="p in pagination" :key="p.id") {{ p.first }} {{ p.last }} {{ p.suffix }}
       .buttons
-        button.btn-prev(:disabled="pageNumber === 0" @click="prevPage") Previous
-        button.btn-next(:disabled="pageNumber >= pageCount - 1" @click="nextPage") Next
+        button.btn-prev(v-if="pagination.offset > 0" @click="prevPage") Previous
+        button.btn-next(@click="nextPage") Next
 </template>
 
 <script>
+// import { mapActions } from 'vuex'
 import SearchComponent from '@/components/SearchComponent.vue'
 import SpinnerComponent from '@/components/SpinnerComponent.vue'
-import axios from 'axios'
 
 export default {
   name: 'PageHome',
@@ -37,11 +37,16 @@ export default {
   data () {
     return {
       isLoading: false,
+      query: '',
       items: [],
-      pagination: [],
       url: '',
       pageNumber: 0,
-      size: 14
+      size: 14,
+      pagination: {
+        limit: 10,
+        offset: 0,
+        totalCount: 0
+      }
     }
   },
   computed: {
@@ -57,11 +62,16 @@ export default {
     }
   },
   methods: {
-    onDataLoad (data) {
-      console.log(data)
-      this.items = data.data
-      this.pagination = data.pagination
-      this.pageNumber = 0
+    // ...mapActions('api', ['getSearchItems']),
+
+    onSubmit (search) {
+      this.query = search
+      // console.log(data)
+      // this.items = data.data
+      // this.pagination = data.pagination
+      // this.pageNumber = 0
+      this.pagination.offset = 0
+      this.pagination.totalCount = 0
       this.loadGifs()
     },
     revertTitle () {
@@ -70,33 +80,49 @@ export default {
       title.style.color = 'black'
     },
     nextPage () {
-      if (this.pageNumber < this.pageCount - 1) {
-        this.pageNumber++
+      if (this.pagination.offset < this.pagination.totalCount) {
+        this.pagination.offset += 10
         this.loadGifs()
       }
     },
     prevPage () {
-      if (this.pageNumber > 0) {
-        this.pageNumber--
+      if (this.pagination.offset > 0) {
+        this.pagination.offset -= 10
         this.loadGifs()
       }
     },
-    loadGifs () {
+    async loadGifs () {
       this.isLoading = true
-      const offset = this.pageNumber * this.size
-      const url = `https://api.giphy.com/v1/gifs/search?api_key=${this.API_KEY}&q=${this.query}&limit=${this.size}&offset=${offset}`
-      axios.get(url)
-        .then(response => {
-          const data = response.data.data
-          const pagination = response.data.pagination
-          this.items = data
-          this.pagination = pagination
-          this.isLoading = false
-        })
-        .catch(error => {
-          console.log(error)
-          this.isLoading = false
-        })
+      const params = {
+        q: this.query,
+        limit: 10,
+        offset: this.pagination.offset
+      }
+
+      try {
+        const res = await this.$store.dispatch('api/getSearchItems', { params })
+        const data = res.data
+        this.pagination.totalCount = data.pagination.total_count
+        this.items = data.data
+      } catch (err) {
+        console.warn('Error', err)
+      } finally {
+        this.isLoading = false
+      }
+
+      // const url = `https://api.giphy.com/v1/gifs/search?api_key=${this.API_KEY}&q=${this.query}&limit=${this.size}&offset=${offset}`
+      // axios.get(url)
+      //   .then(response => {
+      //     const data = response.data.data
+      //     const pagination = response.data.pagination
+      //     this.items = data
+      //     this.pagination = pagination
+      //     this.isLoading = false
+      //   })
+      //   .catch(error => {
+      //     console.log(error)
+      //     this.isLoading = false
+      //   })
     }
   }
 }
