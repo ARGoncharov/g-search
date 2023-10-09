@@ -5,7 +5,6 @@
       v-model="buttonTitle"
       v-clipboard:copy="imageData.images.original.url"
       @click="copyURL") {{buttonTitle}}
-    button.btn-download(:href="imageData.images.original.url" download) Download
 </template>
 
 <script>
