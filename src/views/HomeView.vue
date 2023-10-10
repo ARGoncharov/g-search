@@ -24,7 +24,7 @@
 </template>
 
 <script>
-// import { mapActions } from 'vuex'
+
 import SearchComponent from '@/components/SearchComponent.vue'
 import SpinnerComponent from '@/components/SpinnerComponent.vue'
 
