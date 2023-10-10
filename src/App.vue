@@ -12,10 +12,6 @@ export default {
       title.style.color = 'a'
       title.style.transition = '0.5s'
     }
-  },
-  mounted () {
-    // const searchField = this.$refs.searchComponent.$el.querySelector('.search-field')
-    // searchField.addEventListener('click', this.changeTitle)
   }
 }
 
