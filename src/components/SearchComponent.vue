@@ -28,18 +28,6 @@ export default {
   methods: {
     async submit () {
       this.$emit('submit', this.searchItem)
-      // try {
-      //   this.$emit('update:loading', true)
-      //   const params = {
-      //     q: this.searchItem
-      //   }
-      //   const { data } = await this.$store.dispatch('api/getSearchItems', { params })
-      //   this.$emit('onDataLoad', data)
-      // } catch (err) {
-      //   console.warn('Error', err)
-      // } finally {
-      //   this.$emit('update:loading', false)
-      // }
     }
   }
 }

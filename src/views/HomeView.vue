@@ -62,14 +62,9 @@ export default {
     }
   },
   methods: {
-    // ...mapActions('api', ['getSearchItems']),
 
     onSubmit (search) {
       this.query = search
-      // console.log(data)
-      // this.items = data.data
-      // this.pagination = data.pagination
-      // this.pageNumber = 0
       this.pagination.offset = 0
       this.pagination.totalCount = 0
       this.loadGifs()
@@ -109,20 +104,6 @@ export default {
       } finally {
         this.isLoading = false
       }
-
-      // const url = `https://api.giphy.com/v1/gifs/search?api_key=${this.API_KEY}&q=${this.query}&limit=${this.size}&offset=${offset}`
-      // axios.get(url)
-      //   .then(response => {
-      //     const data = response.data.data
-      //     const pagination = response.data.pagination
-      //     this.items = data
-      //     this.pagination = pagination
-      //     this.isLoading = false
-      //   })
-      //   .catch(error => {
-      //     console.log(error)
-      //     this.isLoading = false
-      //   })
     }
   }
 }
