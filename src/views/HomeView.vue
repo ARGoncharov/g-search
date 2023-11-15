@@ -21,6 +21,8 @@
       .buttons
         button.btn-prev(v-if="pagination.offset > 0" @click="prevPage") Previous
         button.btn-next(@click="nextPage") Next
+    .footer
+      p.project-info What is g-search?
 </template>
 
 <script>
